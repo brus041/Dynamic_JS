@@ -1,6 +1,7 @@
 const samples  = "https://brus041.github.io/Web_Visualization_Challenge/samples.json"
 d3.json(samples).then(function(data) {
     console.log(data);
+    console.log(data.metadata[0].gender)
   });
 
 // set up initial plot with 940 as id 
@@ -61,7 +62,18 @@ function optionChanged(){
 d3.json(samples).then(function(data) {
     for (let i = 0; i < data.samples.length; i++) {
         if (id === data.samples[i].id){
-            
+
+
+            var dem = d3.select("#sample-metadata")
+            var row = dem.append("li")
+            row.text('ID: '+ data.metadata[i].id);
+            row.text('Ethnicity: '+ data.metadata[i].ethnicity);
+            row.text('Age: '+ data.metadata[i].age);
+            row.text('Gender: '+ data.metadata[i].gender);
+            row.text('Location: '+ data.metadata[i].location);
+            row.text('BB Type: '+ data.metadata[i].bbtype);
+            row.text('Wfreq: '+ data.metadata[i].wfreq);
+    
             // ************************create horizonal barchart************************
             var xs = data.samples[i].sample_values.slice(0,10);
             var sorted = xs.sort(function sortFunction(a, b) {
@@ -86,7 +98,7 @@ d3.json(samples).then(function(data) {
             
             Plotly.newPlot("bar", dat);
 
-            // *********************display metadata for chosen id********************
+            // *********************create bubbble chart********************
             
             var trace1 = {
                 x: data.samples[i].otu_ids ,
@@ -109,12 +121,20 @@ d3.json(samples).then(function(data) {
               };
               
               Plotly.newPlot('bubble', data, layout);
+
+              // *********************display metadata for chosen id********************
+            // var dem = d3.select("#sample-metadata")
+            // dem.text('ID: '+ data.metadata[i].id);
+            // dem.text('Ethnicity: '+ data.metadata[i].ethnicity);
+            // dem.text('Age: '+ data.metadata[i].age);
+            // dem.text('Gender: '+ data.metadata[i].gender);
+            // dem.text('Location: '+ data.metadata[i].location);
+            // dem.text('BB Type: '+ data.metadata[i].bbtype);
+            // dem.text('Wfreq: '+ data.metadata[i].wfreq);
+
         }
+        
     }
-    
-
-    
-
   });
 }
 
