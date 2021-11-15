@@ -5,21 +5,16 @@ d3.json(samples).then(function(data) {
 
 // set up initial plot with 940 as id 
 function init() {
-    dat = [{
-        type: 'bar',
-        x : [20, 14, 23],
-        y : ['giraffes', 'orangutans', 'monkeys'],
-        orientation: 'h',
-        transforms: [
-            {
-              type: "sort",
-              target: "x",
-              order: "ascending"
-            }
-          ]
-    }];
-    
-    Plotly.newPlot("bar", dat);
+    // initialize initial plot manually as it will change based on user selection
+        dat = [{
+            type: 'bar',
+            x : [40, 40, 47, 50, 51, 71, 78, 113, 126, 163],
+            y : ["OTU 1977", "OTU 2318", "OTU 189", "OTU 352", "OTU 1189", "OTU 41", "OTU 2264", "OTU 482", "OTU 2859", "OTU 1167"],
+            orientation: 'h',
+            
+        }];
+        
+        Plotly.newPlot("bar", dat);
   }
   
 d3.json(samples).then(function(data) {
@@ -41,15 +36,31 @@ function optionChanged(){
 d3.json(samples).then(function(data) {
     for (let i = 0; i < data.samples.length; i++) {
         if (id === data.samples[i].id){
+            
             var xs = data.samples[i].sample_values.slice(0,10);
             var sorted = xs.sort(function sortFunction(a, b) {
                 return b - a;
               });
-            var x = sorted.reverse();
-            var y = data.samples[i].otu_ids.slice(0,10);
-
-            Plotly.restyle("bar", "x", [x]);
-            Plotly.restyle("bar", "y", [y]);
+              
+        
+            var x0 = sorted.reverse();
+            var y0 = data.samples[i].otu_ids.slice(0,10).reverse();
+            
+            var label = []
+            for (let i = 0; i < y0.length; i++) {
+                label.push("OTU " + y0[i])
+            }
+            dat = [{
+                type: 'bar',
+                x : x0,
+                y : label,
+                orientation: 'h',
+                labels: label
+            }];
+            
+            Plotly.newPlot("bar", dat);
+            // Plotly.restyle("bar", "x", [x]);
+            // Plotly.restyle("bar", "y", [y]);
         }
     }
     // Plotly.restyle("bar", "x", [x]);
