@@ -15,6 +15,31 @@ function init() {
         }];
         
         Plotly.newPlot("bar", dat);
+        d3.json(samples).then(function(data) {
+            
+          
+        var trace1 = {
+            x: data.samples[0].otu_ids ,
+            y: data.samples[0].sample_values,
+            mode: 'markers',
+            marker: {
+              color: data.samples[0].otu_ids,
+              
+              size: data.samples[0].sample_values
+            }
+          };
+          
+          var data = [trace1];
+          
+          var layout = {
+            title: 'OTU Bubble Chart',
+            showlegend: false,
+            height: 600,
+            width: 1500
+          };
+          
+          Plotly.newPlot('bubble', data, layout);
+        });
   }
   
 d3.json(samples).then(function(data) {
@@ -37,6 +62,7 @@ d3.json(samples).then(function(data) {
     for (let i = 0; i < data.samples.length; i++) {
         if (id === data.samples[i].id){
             
+            // ************************create horizonal barchart************************
             var xs = data.samples[i].sample_values.slice(0,10);
             var sorted = xs.sort(function sortFunction(a, b) {
                 return b - a;
@@ -59,12 +85,33 @@ d3.json(samples).then(function(data) {
             }];
             
             Plotly.newPlot("bar", dat);
-            // Plotly.restyle("bar", "x", [x]);
-            // Plotly.restyle("bar", "y", [y]);
+
+            // *********************display metadata for chosen id********************
+            
+            var trace1 = {
+                x: data.samples[i].otu_ids ,
+                y: data.samples[i].sample_values,
+                mode: 'markers',
+                marker: {
+                  color: data.samples[i].otu_ids,
+                  
+                  size: data.samples[i].sample_values
+                }
+              };
+              
+              var data = [trace1];
+              
+              var layout = {
+                title: 'OTU Bubble Chart',
+                showlegend: false,
+                height: 600,
+                width: 1500
+              };
+              
+              Plotly.newPlot('bubble', data, layout);
         }
     }
-    // Plotly.restyle("bar", "x", [x]);
-    // Plotly.restyle("bar", "y", [y]);
+    
 
     
 
