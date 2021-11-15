@@ -62,17 +62,23 @@ function optionChanged(){
 d3.json(samples).then(function(data) {
     for (let i = 0; i < data.samples.length; i++) {
         if (id === data.samples[i].id){
-
-
+           
+            // *********************display metadata for chosen id********************
+            d3.selectAll("li").remove()
             var dem = d3.select("#sample-metadata")
-            var row = dem.append("li")
-            row.text('ID: '+ data.metadata[i].id);
-            row.text('Ethnicity: '+ data.metadata[i].ethnicity);
-            row.text('Age: '+ data.metadata[i].age);
-            row.text('Gender: '+ data.metadata[i].gender);
-            row.text('Location: '+ data.metadata[i].location);
-            row.text('BB Type: '+ data.metadata[i].bbtype);
-            row.text('Wfreq: '+ data.metadata[i].wfreq);
+            metad = 
+            ['ID: '+ data.metadata[i].id,
+            'Ethnicity: '+ data.metadata[i].ethnicity,
+            'Age: '+ data.metadata[i].age,
+            'Gender: ' + data.metadata[i].gender,
+            'Location: ' + data.metadata[i].location,
+            'BB Type: '+ data.metadata[i].bbtype,
+            'Wfreq: '+ data.metadata[i].wfreq]
+            
+            metad.forEach((info) => {
+                var row = dem.append("li");
+                row.text(info);
+              });
     
             // ************************create horizonal barchart************************
             var xs = data.samples[i].sample_values.slice(0,10);
@@ -122,16 +128,6 @@ d3.json(samples).then(function(data) {
               
               Plotly.newPlot('bubble', data, layout);
 
-              // *********************display metadata for chosen id********************
-            // var dem = d3.select("#sample-metadata")
-            // dem.text('ID: '+ data.metadata[i].id);
-            // dem.text('Ethnicity: '+ data.metadata[i].ethnicity);
-            // dem.text('Age: '+ data.metadata[i].age);
-            // dem.text('Gender: '+ data.metadata[i].gender);
-            // dem.text('Location: '+ data.metadata[i].location);
-            // dem.text('BB Type: '+ data.metadata[i].bbtype);
-            // dem.text('Wfreq: '+ data.metadata[i].wfreq);
-
         }
         
     }
@@ -139,5 +135,5 @@ d3.json(samples).then(function(data) {
 }
 
 
-// display plot
+// display plots
 init()
