@@ -1,4 +1,4 @@
-const samples  = "https://brus041.github.io/Dynamic_JS/samples.json"
+const samples  = "https://brus041.github.io/Web_Visualization_Challenge/samples.json"
 d3.json(samples).then(function(data) {
     console.log(data);
     console.log(data.metadata[0].gender)
